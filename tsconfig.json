@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "es5",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "lib": ["es2019", "dom"],
+    "outDir": "./dist/server"
+  },
+  "include": [
+    "./src/server/**/*"
+  ]
+}
