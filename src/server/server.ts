@@ -8,15 +8,15 @@ const serverPort = 4000
 
 app.use(Express.static(path.join(projectRootPath, 'dist/client')))
 
-app.get('/api/test', (req, res) => {
-  res.send({ data: 'test' })
+app.get('/api/ping', (_, res) => {
+  res.send({ msg: 'pong' })
 })
 
-app.get('/api/authenticate-test', authenticate, (req, res) => {
-  res.send({ data: 'authenticate-test' })
+app.get('/api/auth-test', authenticate, (_, res) => {
+  res.send({ msg: 'authentication success' })
 })
 
-app.get('*', function(req, res) {
+app.get('*', function(_, res) {
   res.sendFile(path.join(projectRootPath, 'dist/client', 'index.html'))
 })
 

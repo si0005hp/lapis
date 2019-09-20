@@ -15,7 +15,7 @@ function getKey(header: JwtHeader, callback: SigningKeyCallback) {
   if (signingKeyCache) return callback(null, signingKeyCache)
 
   jwksClient.getSigningKey(header.kid, (_, key) => {
-    const signingKeyCache = isCertSigningKey(key) ? key.publicKey : key.rsaPublicKey
+    signingKeyCache = isCertSigningKey(key) ? key.publicKey : key.rsaPublicKey
     callback(null, signingKeyCache)
   })
 }

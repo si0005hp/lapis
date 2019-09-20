@@ -7,7 +7,7 @@
     "jsx": "react",
     "moduleResolution": "node",
     "lib": ["es2019", "dom"],
-    "outDir": "./dist/server"
+    "outDir": "./dist" // serverからclientに依存しない限り、ビルド結果の階層はこれでOK
   },
   "include": [
     "./src/server/**/*"
