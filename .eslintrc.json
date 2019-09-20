@@ -19,11 +19,14 @@
     "quotes": [2, "single"],
     "strict": [2, "never"],
     "no-console": 0,
+    "@typescript-eslint/no-var-requires": "off",
     /* react */
     "react/prop-types": "off",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
-    "react/react-in-jsx-scope": "error"
+    "react/react-in-jsx-scope": "error",
+    // @typescript-eslint
+    "@typescript-eslint/explicit-function-return-type": "off"
   },
   "extends": [
     "eslint:recommended",

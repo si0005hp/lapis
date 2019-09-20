@@ -5,7 +5,9 @@
   "author": "si0005hp <si0005hp@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/auth0-lock": "^11.4.12",
     "@types/express": "^4.17.1",
+    "@types/jwt-decode": "^2.2.1",
     "@types/node": "^12.7.5",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
@@ -27,7 +29,11 @@
     "webpack-dev-server": "^3.8.1"
   },
   "dependencies": {
+    "auth0-lock": "^11.17.2",
+    "dotenv": "^8.1.0",
     "express": "^4.17.1",
+    "jwt-decode": "^2.2.0",
+    "query-string": "^6.8.3",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1"
