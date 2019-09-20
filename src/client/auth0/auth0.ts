@@ -8,17 +8,21 @@ class Auth0 {
 
   private getAuth0Lock = (container: string) => {
     if (!this.auth0Lock) {
-      this.auth0Lock = new Auth0Lock(process.env.AUTH0_CLIENTID || '', process.env.AUTH0_DOMAIN || '', {
-        container,
-        closable: false,
-        auth: {
-          responseType: 'token id_token',
-          redirectUrl: 'http://localhost:9000' + '/callback', // TODO
-          params: {
-            scope: 'openid profile email'
+      this.auth0Lock = new Auth0Lock(
+        process.env.AUTH0_CLIENTID || '',
+        process.env.AUTH0_DOMAIN || '',
+        {
+          container,
+          closable: false,
+          auth: {
+            responseType: 'token id_token',
+            redirectUrl: 'http://localhost:9000' + '/callback', // TODO
+            params: {
+              scope: 'openid profile email'
+            }
           }
         }
-      })
+      )
     }
     return this.auth0Lock
   }
@@ -34,7 +38,10 @@ class Auth0 {
     const localStorage = window.localStorage
     localStorage.setItem('accessToken', access_token)
     localStorage.setItem('idToken', id_token)
-    localStorage.setItem('expiresAt', (parseInt(expires_in) * 1000 + new Date().getTime()).toString())
+    localStorage.setItem(
+      'expiresAt',
+      (parseInt(expires_in) * 1000 + new Date().getTime()).toString()
+    )
     localStorage.setItem('user', JSON.stringify(jwtDecode(id_token)))
   }
 

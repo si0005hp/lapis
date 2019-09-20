@@ -1,5 +1,6 @@
 import Express from 'express'
 import * as path from 'path'
+import { authenticate } from './auth0/auth0'
 
 const app = Express()
 const projectRootPath = `${__dirname}/../../`
@@ -9,6 +10,10 @@ app.use(Express.static(path.join(projectRootPath, 'dist/client')))
 
 app.get('/api/test', (req, res) => {
   res.send({ data: 'test' })
+})
+
+app.get('/api/authenticate-test', authenticate, (req, res) => {
+  res.send({ data: 'authenticate-test' })
 })
 
 app.get('*', function(req, res) {
