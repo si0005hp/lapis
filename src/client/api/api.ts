@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios'
-import { GET } from '../../types/api'
+import { GET } from '../../common/types/api'
 import auth0 from '../auth0/auth0'
 
 const axiosInstance = axios.create({

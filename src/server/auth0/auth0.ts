@@ -1,4 +1,3 @@
-import { Request, Response, NextFunction } from 'express'
 import jwt, { JwtHeader, SigningKeyCallback } from 'jsonwebtoken'
 import JwksRsa, { CertSigningKey, RsaSigningKey } from 'jwks-rsa'
 import dotenv from 'dotenv'
@@ -20,12 +19,13 @@ function getKey(header: JwtHeader, callback: SigningKeyCallback) {
   })
 }
 
-export function authenticate(req: Request, res: Response, next: NextFunction) {
+export function authenticate(req, res, next) {
   const token = req.headers.authorization
-  jwt.verify(token, getKey, err => {
+  jwt.verify(token, getKey, (err, decoded) => {
     if (err) {
       return res.json({ success: false, message: 'Invalid token' })
     }
+    req.params['sub'] = decoded['sub']
     next()
   })
 }
