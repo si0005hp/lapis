@@ -10,6 +10,7 @@
     "outDir": "./dist" // serverからclientに依存しない限り、ビルド結果の階層はこれでOK
   },
   "include": [
-    "./src/server/**/*"
+    "./src/server/**/*",
+    "./src/types/**/*"
   ]
 }

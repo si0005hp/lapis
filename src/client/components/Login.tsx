@@ -8,8 +8,9 @@ const Login: React.FC<RouteComponentProps<{}>> = ({ history }) => {
   useEffect(() => {
     if (auth0.isAuthenticated()) {
       history.push('/main')
+    } else {
+      auth0.showAuth0Lock(auth0LockContainer)
     }
-    auth0.showAuth0Lock(auth0LockContainer)
   })
   return <div id={auth0LockContainer} />
 }

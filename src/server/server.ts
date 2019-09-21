@@ -2,7 +2,7 @@ import Express from 'express'
 import * as path from 'path'
 import { authenticate } from './auth0/auth0'
 
-const app = Express()
+const app: Express.Application = Express()
 const projectRootPath = `${__dirname}/../../`
 const serverPort = 4000
 
