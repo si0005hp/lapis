@@ -1,6 +1,7 @@
 import jwt, { JwtHeader, SigningKeyCallback } from 'jsonwebtoken'
 import JwksRsa, { CertSigningKey, RsaSigningKey } from 'jwks-rsa'
 import dotenv from 'dotenv'
+import { IdTokenDecoded } from '../../common/types/auth0'
 
 dotenv.config()
 const jwksClient = JwksRsa({ jwksUri: process.env.AUTH0_JWKS as string }) // TODO Fix as string
@@ -23,11 +24,12 @@ function getKey(header: JwtHeader, callback: SigningKeyCallback) {
 // TODO any
 export function authenticate(req: any, res: any, next: any) {
   const token = req.headers.authorization
-  jwt.verify(token, getKey, (err, decoded: any) => {
+  jwt.verify(token, getKey, (err, decoded) => {
+    const idTokenDecoded = decoded as IdTokenDecoded
     if (err) {
       return res.json({ success: false, message: 'Invalid token: Failed to verify jwt token' })
     }
-    req.params['sub'] = decoded['sub']
+    req.params.sub = idTokenDecoded.sub
     next()
   })
 }
