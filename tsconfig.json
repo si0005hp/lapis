@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "strict": true,
     "sourceMap": true,
     "target": "es5",
     "module": "commonjs",
@@ -10,7 +11,6 @@
     "outDir": "./dist" // serverからclientに依存しない限り、ビルド結果の階層はこれでOK
   },
   "include": [
-    "./src/server/**/*",
-    "./src/common/**/*"
+    "./src/**/*"
   ]
 }

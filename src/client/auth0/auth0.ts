@@ -4,7 +4,7 @@ import queryString, { ParsedQuery } from 'query-string'
 import Auth0Lock from 'auth0-lock'
 
 class Auth0 {
-  private auth0Lock: Auth0LockStatic
+  private auth0Lock?: Auth0LockStatic
 
   private getAuth0Lock = (container: string) => {
     if (!this.auth0Lock) {
@@ -55,7 +55,7 @@ class Auth0 {
 
   public isAuthenticated = () => {
     const expiresAt = window.localStorage.getItem('expiresAt')
-    return new Date().getTime() < parseInt(expiresAt)
+    return expiresAt ? new Date().getTime() < parseInt(expiresAt) : false
   }
 
   private unsetToken = () => {
@@ -71,7 +71,10 @@ class Auth0 {
   }
 
   public getUser = () => {
-    return this.isAuthenticated() ? JSON.parse(localStorage.getItem('user')) : null
+    if (!this.isAuthenticated()) return null
+
+    const user = localStorage.getItem('user')
+    return user !== null ? JSON.parse(user) : null
   }
 
   public loginCallback = () => {
