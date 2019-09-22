@@ -1,34 +1,43 @@
 import * as React from 'react'
-import { apiGet } from '../api/api'
+import { apiGet, apiPost } from '../api/api'
 import axios from 'axios'
 
 const Main: React.FC = () => {
   const ping = async () => {
-    const { data } = await apiGet('/api/ping')
-    console.log(data.msg)
+    try {
+      const { data } = await apiGet('/api/ping')
+      console.log(`id: ${data.id} (${typeof data.id})`)
+      console.log(`msg: ${data.msg} (${typeof data.msg})`)
+    } catch (e) {
+      console.error(e.response.data)
+    }
   }
 
   const authTest = async () => {
-    const { data } = await apiGet('/api/auth-test')
-    console.log(data.msg)
+    try {
+      const { data } = await apiGet('/api/auth-test')
+      console.log(data.msg)
+    } catch (e) {
+      console.error(e.response.data)
+    }
   }
 
   const userGetTest = async () => {
     try {
-      const res = await axios.get('/api/users')
-      console.log(res)
+      const { data } = await axios.get('/api/users')
+      console.log(data)
     } catch (e) {
-      console.error(e)
+      console.error(e.response.data)
     }
   }
 
   const userPostTest = async () => {
     try {
       const user = JSON.parse(localStorage.getItem('user') as string)
-      const res = await axios.post('/api/users', { sub: user.sub })
-      console.log(res)
+      const { data } = await apiPost('/api/users', { user: { sub: user.sub } })
+      console.log(data)
     } catch (e) {
-      console.error(e)
+      console.error(e.response.data)
     }
   }
 

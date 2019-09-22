@@ -1,6 +1,6 @@
 import Express from 'express'
 import { HttpError } from 'http-errors'
-import { GET } from './api'
+import { GET, POST } from './api'
 
 declare module 'express' {
   interface RequestParams {
@@ -24,6 +24,11 @@ declare module 'express' {
   }
   interface Application {
     get: (<P extends keyof GET>(path: P, ...requestHandlers: ExRequestHandler<GET[P]>[]) => any) &
+      IRouterMatcher<this>
+    post: (<P extends keyof POST>(
+      path: P,
+      ...requestHandlers: ExRequestHandler<POST[P]>[]
+    ) => any) &
       IRouterMatcher<this>
   }
 }
