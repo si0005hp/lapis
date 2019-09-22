@@ -6,12 +6,12 @@ import { IdTokenDecoded } from '../../common/types/auth0'
 dotenv.config()
 const jwksClient = JwksRsa({ jwksUri: process.env.AUTH0_JWKS as string }) // TODO Fix as string
 
-function isCertSigningKey(key: CertSigningKey | RsaSigningKey): key is CertSigningKey {
+const isCertSigningKey = (key: CertSigningKey | RsaSigningKey): key is CertSigningKey => {
   return (key as CertSigningKey).publicKey !== undefined
 }
 
 let signingKeyCache: string
-function getKey(header: JwtHeader, callback: SigningKeyCallback) {
+const getKey = (header: JwtHeader, callback: SigningKeyCallback) => {
   if (signingKeyCache) return callback(null, signingKeyCache)
   if (!header.kid) return callback('Invalid token: jwt token header is missing kid')
 
@@ -22,7 +22,7 @@ function getKey(header: JwtHeader, callback: SigningKeyCallback) {
 }
 
 // TODO any
-export function authenticate(req: any, res: any, next: any) {
+export const authenticate = (req: any, res: any, next: any) => {
   const token = req.headers.authorization
   jwt.verify(token, getKey, (err, decoded) => {
     const idTokenDecoded = decoded as IdTokenDecoded
