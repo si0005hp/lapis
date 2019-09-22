@@ -1,0 +1,14 @@
+{
+  "type": "sqlite",
+  "database": "lapis-dev.db",
+  "synchronize": true,
+  "entities": [
+    "src/server/entity/**/*.ts"
+  ],
+  "subscribers": [
+    "src/server/subscriber/**/*.ts"
+  ],
+  "migrations": [
+    "src/server/migration/**/*.ts"
+  ]
+}
