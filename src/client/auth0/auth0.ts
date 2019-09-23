@@ -3,7 +3,8 @@ import jwtDecode from 'jwt-decode'
 import queryString from 'query-string'
 import Auth0Lock from 'auth0-lock'
 import { IdTokenDecoded } from '../../common/types/auth0'
-import { Dispatch } from 'redux'
+import { User } from '../../common/types'
+import { apiPost } from '../api/api'
 
 class Auth0 {
   private auth0Lock?: Auth0LockStatic
@@ -61,7 +62,10 @@ class Auth0 {
     return user !== null ? JSON.parse(user) : null
   }
 
-  public login = (createUserAction: (sub: string) => (dispatch: Dispatch) => Promise<void>) => {
+  public login = async (
+    setLoginUserAction: (user: User) => void,
+    setLoginErrorAction: (error: string) => void
+  ) => {
     const { access_token, id_token, expires_in } = this.getQueryParams()
     if (!access_token) throw new Error(this.callbackErrorMessage('access_token'))
     if (!id_token) throw new Error(this.callbackErrorMessage('id_token'))
@@ -70,9 +74,15 @@ class Auth0 {
     // Register/fetch user and set to state
     const idTokenDecoded = jwtDecode<IdTokenDecoded>(id_token as string)
     if (!idTokenDecoded.sub) throw new Error(this.callbackErrorMessage('id_token.sub'))
-    createUserAction(idTokenDecoded.sub)
 
-    // Set credentials in local strage
+    let res
+    try {
+      res = await apiPost('/api/users', { user: { sub: idTokenDecoded.sub } })
+    } catch (e) {
+      setLoginErrorAction(e.response.data)
+      throw e
+    }
+    setLoginUserAction(res.data.user)
     this.setToken(access_token as string, id_token as string, expires_in as string, idTokenDecoded)
   }
 

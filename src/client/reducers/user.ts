@@ -5,27 +5,23 @@ import { ActionTypes } from '../actions/action-types'
 
 export interface State {
   user: User | null
+  loginError: string | null
 }
 
 const initialState: State = {
-  user: null
+  user: null,
+  loginError: null
 }
 
 const userReducer: Reducer<State, Actions> = (state = initialState, action) => {
   switch (action.type) {
-    case ActionTypes.CREATE_USER_START: {
-      return state
-    }
-    case ActionTypes.CREATE_USER_SUCCESS: {
+    case ActionTypes.SET_LOGIN_USER: {
       return { ...state, user: action.payload }
     }
-    case ActionTypes.CREATE_USER_ERROR: {
-      // TODO
-      return state
+    case ActionTypes.SET_LOGIN_ERROR: {
+      return { ...state, loginError: action.payload }
     }
     default: {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const _: never = action
       return state
     }
   }

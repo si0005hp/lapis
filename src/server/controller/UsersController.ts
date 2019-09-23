@@ -21,7 +21,11 @@ export default (app: Express.Application, connection: Connection) => {
   app.post('/api/users', async function(req, res, next) {
     try {
       const user = repository.create(req.body.user)
-      const result = await repository.save(user)
+
+      let result = await repository.findOne({ sub: user.sub })
+      if (!result) {
+        result = await repository.save(user)
+      }
       return res.send({ user: entityAsType(result) })
     } catch (e) {
       next(createHttpError(500, e.message))
