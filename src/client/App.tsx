@@ -1,12 +1,27 @@
 import * as React from 'react'
-import { Switch, Redirect, Route } from 'react-router'
+import { Switch, Redirect, Route, withRouter, RouteComponentProps } from 'react-router'
+import { connect } from 'react-redux'
 import auth0 from './auth0/auth0'
 import Main from './components/Main'
 import Login from './components/Login'
+import * as userActions from './actions/user'
+import { Dispatch, bindActionCreators } from 'redux'
 
-const App: React.FC = () => {
+interface DispatchProps {
+  userActions: {
+    createUser: (sub: string) => (dispatch: Dispatch) => Promise<void>
+  }
+}
+
+type AppProps = DispatchProps & RouteComponentProps<{}>
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  userActions: bindActionCreators(userActions, dispatch)
+})
+
+const App: React.FC<AppProps> = ({ userActions }) => {
   const loginCallback = () => {
-    auth0.loginCallback()
+    auth0.login(userActions.createUser)
     return <Redirect to="/main" />
   }
 
@@ -30,4 +45,9 @@ const App: React.FC = () => {
   )
 }
 
-export default App
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps
+  )(App)
+)

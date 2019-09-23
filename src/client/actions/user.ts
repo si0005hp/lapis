@@ -1,5 +1,5 @@
 import { User } from '../../common/types/index'
-import { Dispatch, Action } from 'redux'
+import { Dispatch } from 'redux'
 import { ActionTypes } from './action-types'
 import { apiPost } from '../api/api'
 
@@ -16,7 +16,7 @@ const createUserError = (payload: { error: string }) => ({
   payload
 })
 
-export const createUser = (sub: string) => async (dispatch: Dispatch<Action>) => {
+export const createUser = (sub: string) => async (dispatch: Dispatch) => {
   dispatch(createUserStart(sub))
   let res
   try {

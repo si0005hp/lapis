@@ -3,7 +3,7 @@ import jwtDecode from 'jwt-decode'
 import queryString from 'query-string'
 import Auth0Lock from 'auth0-lock'
 import { IdTokenDecoded } from '../../common/types/auth0'
-import * as userActions from '../actions/user'
+import { Dispatch } from 'redux'
 
 class Auth0 {
   private auth0Lock?: Auth0LockStatic
@@ -61,7 +61,7 @@ class Auth0 {
     return user !== null ? JSON.parse(user) : null
   }
 
-  public loginCallback = () => {
+  public login = (createUserAction: (sub: string) => (dispatch: Dispatch) => Promise<void>) => {
     const { access_token, id_token, expires_in } = this.getQueryParams()
     if (!access_token) throw new Error(this.callbackErrorMessage('access_token'))
     if (!id_token) throw new Error(this.callbackErrorMessage('id_token'))
@@ -70,7 +70,7 @@ class Auth0 {
     // Register/fetch user and set to state
     const idTokenDecoded = jwtDecode<IdTokenDecoded>(id_token as string)
     if (!idTokenDecoded.sub) throw new Error(this.callbackErrorMessage('id_token.sub'))
-    userActions.createUser(idTokenDecoded.sub)
+    createUserAction(idTokenDecoded.sub)
 
     // Set credentials in local strage
     this.setToken(access_token as string, id_token as string, expires_in as string, idTokenDecoded)
